@@ -1,6 +1,7 @@
 package com.quant.ecommerce.entity;
 
 import lombok.Builder;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -18,9 +19,10 @@ import java.time.LocalDateTime;
  * @param price to apply
  * @param currency of price
  */
-@Table("PRICES")
+@Table(name = "PRICES")
 @Builder
 public record Price(
+    @Id @Column("ID") Long id,
     @Column("BRAND_ID") Integer brandId,
     @Column("START_DATE") LocalDateTime startDate,
     @Column("END_DATE") LocalDateTime endDate,

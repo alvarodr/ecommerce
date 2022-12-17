@@ -1,7 +1,4 @@
--- Roles
-INSERT INTO public.roles (id, role_type, description, description_key) VALUES(1, 'SUPERADMIN', 'Superadmin', '-');
-
--- Users
-INSERT INTO public.users("name", surname, email, "password", active, "locked", "role", created_date, code, failed_attemps, owner_company)
-VALUES('Alvaro', 'Donaire', 'alvarodr1983@gmail.com', NULL, true, false, 1, '2022-10-30 22:40:05.186', 'adoru3n', 0, -1);
-
+INSERT INTO PRICES(BRAND_ID, START_DATE, END_DATE, PRICE_LIST, PRODUCT_ID, PRIORITY, PRICE, CURR) VALUES(1, '2020-06-14 00:00:00', '2020-12-31 23:59:59', 1, 35455, 0, 35.50, 'EUR');
+INSERT INTO PRICES(BRAND_ID, START_DATE, END_DATE, PRICE_LIST, PRODUCT_ID, PRIORITY, PRICE, CURR) VALUES(1, '2020-06-14 15:00:00', '2020-06-14 18:30:00', 2, 35455, 1, 25.45, 'EUR');
+INSERT INTO PRICES(BRAND_ID, START_DATE, END_DATE, PRICE_LIST, PRODUCT_ID, PRIORITY, PRICE, CURR) VALUES(1, '2020-06-15 00:00:00', '2020-06-15 11:00:00', 3, 35455, 1, 30.50, 'EUR');
+INSERT INTO PRICES(BRAND_ID, START_DATE, END_DATE, PRICE_LIST, PRODUCT_ID, PRIORITY, PRICE, CURR) VALUES(1, '2020-06-15 16:00:00', '2020-12-31 23:59:59', 4, 35455, 1, 38.95, 'EUR');

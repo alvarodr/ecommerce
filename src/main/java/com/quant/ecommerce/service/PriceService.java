@@ -12,5 +12,5 @@ public interface PriceService {
      * @param dateTime
      * @return
      */
-    Mono<Price> findAppliedPriceRate(LocalDateTime dateTime);
+    Mono<Price> findAppliedPriceRate(Integer brandId, Integer productId, LocalDateTime dateTime);
 }

@@ -1,13 +1,16 @@
 package com.quant.ecommerce.service.impl;
 
 import com.quant.ecommerce.entity.Price;
+import com.quant.ecommerce.handler.EcommerceBusinessException;
 import com.quant.ecommerce.repository.PriceRepository;
 import com.quant.ecommerce.service.PriceService;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
 
+@Service
 public class PriceServiceInMemory implements PriceService {
 
     private final PriceRepository priceRepository;
@@ -17,9 +20,9 @@ public class PriceServiceInMemory implements PriceService {
     }
 
     @Override
-    public Mono<Price> findAppliedPriceRate(LocalDateTime dateTime) {
-        return priceRepository.findApplyedRate(dateTime)
-            .switchIfEmpty(Mono.error(new RuntimeException("Price not found")))
+    public Mono<Price> findAppliedPriceRate(Integer brandId, Integer productId, LocalDateTime dateTime) {
+        return priceRepository.findApplyedRate(brandId, productId, dateTime)
+            .switchIfEmpty(Mono.error(new EcommerceBusinessException("Price not found")))
             .sort(Comparator.comparing(Price::priority).reversed()).next();
     }
 

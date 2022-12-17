@@ -2,6 +2,7 @@ package com.quant.ecommerce.configuration;
 
 import io.r2dbc.spi.ConnectionFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableR2dbcRepositories
 @Configuration
+@ComponentScan
 public class PersistenceConfiguration {
 
     @Bean

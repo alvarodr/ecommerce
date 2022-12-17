@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @Repository
 public interface PriceRepository extends ReactiveCrudRepository<Price, Long> {
 
-    @Query("select ")
-    Flux<Price> findApplyedRate(@Param("dateTime") LocalDateTime dateTime);
+    @Query("SELECT PRICES.* FROM PRICES WHERE :dateTime BETWEEN START_DATE AND END_DATE AND BRAND_ID = :brandId AND " +
+            "PRODUCT_ID = :productId")
+    Flux<Price> findApplyedRate(@Param("brandId") Integer brandId, @Param("productId") Integer productId,
+                                @Param("dateTime") LocalDateTime dateTime);
 }

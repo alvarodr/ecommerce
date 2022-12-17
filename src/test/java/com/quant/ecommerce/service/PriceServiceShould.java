@@ -5,25 +5,24 @@ import com.quant.ecommerce.repository.PriceRepository;
 import com.quant.ecommerce.service.impl.PriceServiceInMemory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.time.*;
-import java.util.stream.Stream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest
 @ActiveProfiles("test")
 class PriceServiceShould {
-
-    @Mock
+    @Autowired
     PriceRepository priceRepository;
     PriceService priceService;
 
@@ -32,24 +31,15 @@ class PriceServiceShould {
         priceService = new PriceServiceInMemory(priceRepository);
     }
 
-    @Test
-    public void day_14_hour_10_00_returned_35_50_EUR() {
-        Clock clock = Clock.fixed(Instant.parse("2020-06-14T10:00:00.00Z"), ZoneId.systemDefault());
-        LocalDateTime dateTime = LocalDateTime.now(clock);
-        Mockito.when(priceRepository.findApplyedRate(ArgumentMatchers.eq(dateTime))).thenReturn(Flux.fromStream(initMockPrice()));
-        Mono<Price> price = priceService.findAppliedPriceRate(dateTime);
+    @ParameterizedTest
+    @CsvFileSource(resources = "/master.input", delimiter = ';')
+    public void day_and_hour_returned_price(Integer brandId, Integer productId, String dateRequest, Double priceExpected) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime dateTime = LocalDateTime.parse(dateRequest, dtf);
 
-        StepVerifier.create(price).consumeNextWith(p -> {
-            Assertions.assertEquals(35.50d, p.price(), "Price must be 35.50 EUR");
-        }).verifyComplete();
-    }
+        Mono<Price> price = priceService.findAppliedPriceRate(brandId, productId, dateTime);
 
-    private Stream<Price> initMockPrice() {
-        return Stream.of(
-            Price.builder().price(30.50d).priority(0).build(),
-            Price.builder().price(25.45d).priority(0).build(),
-            Price.builder().price(35.50d).priority(1).build()
-        );
+        StepVerifier.create(price).consumeNextWith(p -> Assertions.assertEquals(priceExpected, p.price())).verifyComplete();
     }
 
 }

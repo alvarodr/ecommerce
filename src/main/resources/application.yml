@@ -1,4 +1,11 @@
+server:
+  servlet:
+    context-path: /ecommerce
+
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   r2dbc:
     url: r2dbc:h2:mem:///ECOMMERCE?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa
@@ -7,3 +14,5 @@ spring:
     pool:
       max-size: 10
       max-create-connection-time: 10s
+
+logging.level.org.springframework.r2dbc: DEBUG
