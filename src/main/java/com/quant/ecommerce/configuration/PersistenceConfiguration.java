@@ -1,5 +1,7 @@
 package com.quant.ecommerce.configuration;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.r2dbc.spi.ConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +16,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableR2dbcRepositories
 @Configuration
 public class PersistenceConfiguration {
+
+    @Bean
+    public ObjectMapper initObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.findAndRegisterModules();
+        return mapper;
+    }
 
     @Bean
     public ConnectionFactoryInitializer initializer(ConnectionFactory connectionFactory) {

@@ -1,5 +1,8 @@
 package com.quant.ecommerce.service.impl;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.quant.ecommerce.domain.Price;
 import com.quant.ecommerce.entity.PriceEntity;
 import com.quant.ecommerce.handler.EcommerceBusinessException;
 import com.quant.ecommerce.repository.PriceRepository;
@@ -15,15 +18,19 @@ public class PriceServiceInMemory implements PriceService {
 
     private final PriceRepository priceRepository;
 
-    public PriceServiceInMemory(PriceRepository priceRepository) {
+    private final ObjectMapper mapper;
+
+    public PriceServiceInMemory(PriceRepository priceRepository, ObjectMapper mapper) {
         this.priceRepository = priceRepository;
+        this.mapper = mapper;
     }
 
     @Override
-    public Mono<PriceEntity> findAppliedPriceRate(Integer brandId, Integer productId, LocalDateTime dateTime) {
+    public Mono<Price> findAppliedPriceRate(Integer brandId, Integer productId, LocalDateTime dateTime) {
         return priceRepository.findApplyedRate(brandId, productId, dateTime)
             .switchIfEmpty(Mono.error(new EcommerceBusinessException("Price not found")))
-            .sort(Comparator.comparing(PriceEntity::priority).reversed()).next();
+            .sort(Comparator.comparing(PriceEntity::priority).reversed()).next()
+            .map(priceEntity -> mapper.convertValue(priceEntity, Price.class));
     }
 
 }

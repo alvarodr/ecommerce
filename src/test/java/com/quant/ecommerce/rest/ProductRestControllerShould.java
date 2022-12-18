@@ -1,14 +1,16 @@
 package com.quant.ecommerce.rest;
 
-import com.quant.ecommerce.entity.PriceEntity;
+import com.quant.ecommerce.domain.Price;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.r2dbc.connection.init.ConnectionFactoryInitializer;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -16,11 +18,14 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
-@DirtiesContext
-public class ProductRestControllerShould {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class ProductRestControllerShould {
 
     @Autowired
-    private ProductRestController productRestController;
+    ProductRestController productRestController;
+
+    @Autowired
+    ConnectionFactoryInitializer connectionFactory;
 
     @ParameterizedTest
     @CsvFileSource(resources = "/master.input", delimiter = ';')
@@ -34,9 +39,14 @@ public class ProductRestControllerShould {
             .header("brandId", String.valueOf(brandId))
             .exchange()
             .expectStatus().is2xxSuccessful()
-            .expectBody(PriceEntity.class)
+            .expectBody(Price.class)
             .value(price -> price.price(), Matchers.equalTo(priceExpected));
 
+    }
+
+    @AfterAll
+    public void tearDown() {
+        connectionFactory.destroy();
     }
 
 }

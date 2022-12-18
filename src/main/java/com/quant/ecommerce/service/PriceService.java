@@ -1,6 +1,6 @@
 package com.quant.ecommerce.service;
 
-import com.quant.ecommerce.entity.PriceEntity;
+import com.quant.ecommerce.domain.Price;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -12,5 +12,5 @@ public interface PriceService {
      * @param dateTime
      * @return
      */
-    Mono<PriceEntity> findAppliedPriceRate(Integer brandId, Integer productId, LocalDateTime dateTime);
+    Mono<Price> findAppliedPriceRate(Integer brandId, Integer productId, LocalDateTime dateTime);
 }

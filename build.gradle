@@ -29,6 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework:spring-webflux:5.3.22'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 	//implementation 'org.springframework.boot:spring-boot-starter-security'
 	//implementation 'org.springframework.cloud:spring-cloud-kubernetes-config'
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
