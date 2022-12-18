@@ -1,6 +1,6 @@
 package com.quant.ecommerce.service.impl;
 
-import com.quant.ecommerce.entity.Price;
+import com.quant.ecommerce.entity.PriceEntity;
 import com.quant.ecommerce.handler.EcommerceBusinessException;
 import com.quant.ecommerce.repository.PriceRepository;
 import com.quant.ecommerce.service.PriceService;
@@ -20,10 +20,10 @@ public class PriceServiceInMemory implements PriceService {
     }
 
     @Override
-    public Mono<Price> findAppliedPriceRate(Integer brandId, Integer productId, LocalDateTime dateTime) {
+    public Mono<PriceEntity> findAppliedPriceRate(Integer brandId, Integer productId, LocalDateTime dateTime) {
         return priceRepository.findApplyedRate(brandId, productId, dateTime)
             .switchIfEmpty(Mono.error(new EcommerceBusinessException("Price not found")))
-            .sort(Comparator.comparing(Price::priority).reversed()).next();
+            .sort(Comparator.comparing(PriceEntity::priority).reversed()).next();
     }
 
 }

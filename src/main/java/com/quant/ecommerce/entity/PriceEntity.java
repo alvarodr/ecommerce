@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
  */
 @Table(name = "PRICES")
 @Builder
-public record Price(
+public record PriceEntity(
     @Id @Column("ID") Long id,
     @Column("BRAND_ID") Integer brandId,
     @Column("START_DATE") LocalDateTime startDate,

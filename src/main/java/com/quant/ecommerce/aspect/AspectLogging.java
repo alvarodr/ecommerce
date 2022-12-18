@@ -1,6 +1,5 @@
 package com.quant.ecommerce.aspect;
 
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -14,7 +13,6 @@ import reactor.core.publisher.Mono;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Slf4j
 @Aspect
 @Component
 public class AspectLogging {

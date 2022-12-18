@@ -1,6 +1,6 @@
 package com.quant.ecommerce.rest;
 
-import com.quant.ecommerce.entity.Price;
+import com.quant.ecommerce.entity.PriceEntity;
 import com.quant.ecommerce.handler.EcommerceBusinessException;
 import com.quant.ecommerce.service.PriceService;
 import io.swagger.annotations.ApiResponse;
@@ -35,9 +35,9 @@ public class ProductRestController {
     })
     @Parameter(in = ParameterIn.HEADER, description = "Brand identified", name="brandId")
     @GetMapping(GET_PRICE_ENDPOINT)
-    public Mono<Price> getPriceByBrandProductDateTimeApplied(@PathVariable("productId") @NonNull Integer productId,
-                                                             @RequestHeader("brandId") @NonNull Integer brandId,
-                                                             @RequestParam("dateTimeApplied") @NonNull String dateTime) {
+    public Mono<PriceEntity> getPriceByBrandProductDateTimeApplied(@PathVariable("productId") @NonNull Integer productId,
+                                                                   @RequestHeader("brandId") @NonNull Integer brandId,
+                                                                   @RequestParam("dateTimeApplied") @NonNull String dateTime) {
         LocalDateTime localDateTime = null;
         try {
             localDateTime = LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern(PATTERN_YYYY_MM_DD_HH_MM));

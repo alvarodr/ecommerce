@@ -1,6 +1,6 @@
 package com.quant.ecommerce.service;
 
-import com.quant.ecommerce.entity.Price;
+import com.quant.ecommerce.entity.PriceEntity;
 import com.quant.ecommerce.repository.PriceRepository;
 import com.quant.ecommerce.service.impl.PriceServiceInMemory;
 import org.junit.jupiter.api.Assertions;
@@ -21,7 +21,7 @@ import java.time.format.DateTimeFormatter;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
-class PriceServiceShould {
+class PriceEntityServiceShould {
     @Autowired
     PriceRepository priceRepository;
     PriceService priceService;
@@ -37,7 +37,7 @@ class PriceServiceShould {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(dateRequest, dtf);
 
-        Mono<Price> price = priceService.findAppliedPriceRate(brandId, productId, dateTime);
+        Mono<PriceEntity> price = priceService.findAppliedPriceRate(brandId, productId, dateTime);
 
         StepVerifier.create(price).consumeNextWith(p -> Assertions.assertEquals(priceExpected, p.price())).verifyComplete();
     }

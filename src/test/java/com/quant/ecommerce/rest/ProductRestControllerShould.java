@@ -1,6 +1,6 @@
 package com.quant.ecommerce.rest;
 
-import com.quant.ecommerce.entity.Price;
+import com.quant.ecommerce.entity.PriceEntity;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -34,7 +34,7 @@ public class ProductRestControllerShould {
             .header("brandId", String.valueOf(brandId))
             .exchange()
             .expectStatus().is2xxSuccessful()
-            .expectBody(Price.class)
+            .expectBody(PriceEntity.class)
             .value(price -> price.price(), Matchers.equalTo(priceExpected));
 
     }
