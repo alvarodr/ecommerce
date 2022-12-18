@@ -1,8 +1,10 @@
 package com.quant.ecommerce.rest;
 
 import com.quant.ecommerce.domain.Price;
+import com.quant.ecommerce.handler.ApiError;
 import com.quant.ecommerce.handler.EcommerceBusinessException;
 import com.quant.ecommerce.service.PriceService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +17,7 @@ import reactor.util.annotation.NonNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Api(value = "Product REST Controller Services", tags = "REST APIs related to product")
 @RestController
 public class ProductRestController {
 
@@ -29,9 +32,9 @@ public class ProductRestController {
 
     @Operation(summary = "Get price for brandId, productId and dateTime")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 400, message = "Not found"),
-            @ApiResponse(code = 500, message = "Internal server error")
+            @ApiResponse(code = 200, message = "Success", response = Price.class),
+            @ApiResponse(code = 400, message = "Not found", response = ApiError.class),
+            @ApiResponse(code = 500, message = "Internal server error", response = ApiError.class)
     })
     @Parameter(in = ParameterIn.HEADER, description = "Brand identified", name="brandId")
     @GetMapping(GET_PRICE_ENDPOINT)
