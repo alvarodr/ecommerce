@@ -32,7 +32,7 @@ public class AspectLogging {
     public Mono afterLogger(ProceedingJoinPoint joinPoint) throws Throwable {
         Logger logger = LoggerFactory.getLogger(joinPoint.getTarget().getClass());
         Mono result = (Mono) joinPoint.proceed();
-        return result.doOnSuccess(data -> logger.info("FIN {} {}", joinPoint.getSignature().getName(), data));
+        return result.doOnSuccess(data -> logger.info("FINISH {} {}", joinPoint.getSignature().getName(), data));
     }
 
 }
