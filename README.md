@@ -1,3 +1,4 @@
+Need JDK +18
 Clone project
 ```
 git clone git@github.com:alvarodr/ecommerce.git
