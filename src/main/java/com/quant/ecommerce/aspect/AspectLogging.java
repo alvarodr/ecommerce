@@ -5,11 +5,14 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,10 +29,17 @@ public class AspectLogging {
     }
 
     @Around("execution(public * com.quant.ecommerce.service..*Service.*(..)))")
-    public Mono afterLogger(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Publisher afterLogger(ProceedingJoinPoint joinPoint) throws Throwable {
         Logger logger = LoggerFactory.getLogger(joinPoint.getTarget().getClass());
-        Mono result = (Mono) joinPoint.proceed();
-        return result.doOnSuccess(data -> logger.info("FINISH {} {}", joinPoint.getSignature().getName(), data));
+
+        Publisher result = (Publisher) joinPoint.proceed();
+
+        if (result instanceof Mono) {
+          return ((Mono) result).doOnSuccess(data -> logger.info("FINISH {} {}", joinPoint.getSignature().getName(), data));
+        } else {
+          return ((Flux) result).doOnSubscribe(data -> logger.info("FINISH {} {}", joinPoint.getSignature().getName(), data));
+        }
+
     }
 
 }

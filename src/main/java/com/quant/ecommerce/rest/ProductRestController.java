@@ -42,7 +42,7 @@ public class ProductRestController {
             @ApiResponse(code = 500, message = "Internal server error", response = ApiError.class)
     })
     @Parameter(in = ParameterIn.HEADER, description = "Brand identified", name="brandId")
-    @GetMapping(value = GET_PRICE_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = GET_PRICE_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<Price> getPriceByBrandProductDateTimeApplied(@PathVariable("productId")
                                                              @ApiParam(example = "35455", value = "Product identifier")
                                                              @NonNull Integer productId,
