@@ -1,5 +1,5 @@
 #build
-RUN ./gradlew.sh build
+RUN ./gradlew build
 
 FROM openjdk:11
 EXPOSE 8080
