@@ -1,4 +1,4 @@
-FROM gradle:jdk11-alpine
+FROM gradle:jdk11-alpine AS build
 RUN gradlew build
 
 FROM openjdk:11
