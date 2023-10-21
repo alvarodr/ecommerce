@@ -1,5 +1,7 @@
-FROM openjdk:11
+FROM gradle:jdk11-alpine
 RUN gradlew build
+
+FROM openjdk:11
 EXPOSE 8080
 ARG JAR_FILE
 ENV SPRING_PROFILES_ACTIVE local
