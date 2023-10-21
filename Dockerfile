@@ -1,3 +1,6 @@
+#build
+RUN ./gradlew.sh build
+
 FROM openjdk:11
 EXPOSE 8080
 ARG JAR_FILE
