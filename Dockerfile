@@ -1,7 +1,5 @@
-#build
-RUN chmod +x gradlew && sh gradlew build
-
 FROM openjdk:11
+RUN chmod +x gradlew && sh gradlew build
 EXPOSE 8080
 ARG JAR_FILE
 ENV SPRING_PROFILES_ACTIVE local
